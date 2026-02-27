@@ -1,0 +1,27 @@
+# Ambiente Virtual e Cache
+__pycache__/
+*.pyc
+venv/
+.env
+.venv/
+env/
+
+# Node e Dependencias Frontend
+node_modules/
+dist/
+build/
+.npm/
+
+# IDE e Sistema Operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Banco de dados Local e Logs (Se houver SQLite para debugar)
+*.db
+*.sqlite3
+*.log
+
+# Ocultar túneis temporarios do cloudflared/ngrok
+url_tunnel.txt

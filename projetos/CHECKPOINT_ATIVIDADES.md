@@ -1,0 +1,78 @@
+# ðŸ“ ACOMPANHAMENTO DE ATIVIDADES: ROADMAP & REALIZADO
+> Tabela da Verdade (Check-Points) cruzando os planejamentos com os cÃ³digos efetivamente implementados.
+> **Status:** Mapeamento ContÃ­nuo (v1.0)
+
+Este documento segue a Metodologia DMAIC (Control). Ele serve para evitarmos "loops de arquitetura infinita", forÃ§ando uma visÃ£o pragmÃ¡tica do que idealizamos *vs* o que o Git realmente tem.
+
+---
+
+## ðŸŸ¢ PROJETO 1: Payment Gateway (ConcluÃ­do)
+| Tarefa Prevista (Roadmap) | Arquivo ResponsÃ¡vel | Status | ValidaÃ§Ã£o TÃ©cnica |
+| :--- | :--- | :---: | :--- |
+| **P1.1** Criar pasta e Engine Financeira | `server/commerce/order_processor.py` | âœ… | `process_incoming_order` implementado calculando somas brutas. |
+| **P1.2** Gateway PIX DinÃ¢mico e Agnostic | `server/commerce/payment_gateway.py` | âœ… | `generate_pix_charge()` mockando BRCode e QRCode Image API. |
+| **P1.3** Interceptar Webhook da Meta ("order") | `server/core/orchestrator.py` | âœ… | Regra `if msg_type == "order":` isolando a IA Principal inserida. |
+| **P1.4** DocumentaÃ§Ã£o TÃ©cnica do Flow Vendas | `DOCUMENTACAO_MAQUINA_VENDAS.md` | âœ… | Documento focado para terceirizar a implantaÃ§Ã£o da chave POST. |
+
+---
+
+## ðŸŸ¢ PROJETO 2: STT Audio e RAG (ConcluÃ­do)
+| Tarefa Prevista (Roadmap) | Arquivo ResponsÃ¡vel | Status | ValidaÃ§Ã£o TÃ©cnica |
+| :--- | :--- | :---: | :--- |
+| **P2.1** InjeÃ§Ã£o STT (Audio File Downloader) | `server/ai/audio_processor.py` | âœ… | MÃ©todo `transcribe_and_cleanup` usa `.upload` Gemini e `.unlink` local. |
+| **P2.2** Orquestrador "Ouvir" Ã¡udios e transcrever | `server/core/orchestrator.py` | âœ… | Regra `if msg_type == "audio"` envia o Media ID pro novo script STT. |
+| **P2.3** Motor RAG Simples (Drop-in Files) | `server/ai/knowledge_manager.py` | âœ… | Escutador assÃ­ncrono que lÃª a pasta `/knowledge_base/` em tempo real. |
+| **P2.4** RefatoraÃ§Ã£o Multi-Agentes (YAML/Factory) | `server/ai/agent_factory.py` | âœ… | Arquivos criados e integrados (`agents.yaml`, `tasks.yaml`, `LLMFactory` V3 rotativa). |
+
+---
+
+## ðŸŸ¢ PROJETO 3: Flows Manager (A Agenda In-App) (ConcluÃ­do)
+| Tarefa Prevista (Roadmap) | Arquivo ResponsÃ¡vel | Status | ValidaÃ§Ã£o TÃ©cnica |
+| :--- | :--- | :---: | :--- |
+| **P3.1** Orquestrar Intent (Agendamento detectado) | `server/ai/intent_analyzer.py` | âœ… | Regex "AGENDAR/MARCAR" ativa gatilho de Booking. |
+| **P3.2** Arquitetura Flow Manager | `server/experience/flows_manager.py` | âœ… | CriaÃ§Ã£o do payload interativo nativo da Meta (Action: Flow). |
+| **P3.3** Cliente de Disparo In-App | `server/core/whatsapp_cloud_client.py` | âœ… | MÃ©todo `send_interactive_flow` implementado via REST. |
+| **P3.4** Leitura do Retorno do FormulÃ¡rio | `server/experience/booking_processor.py` | âœ… | `BookingProcessor` decodifica `nfm_reply` e envia recibo final. |
+
+---
+
+## ðŸŸ¢ PROJETO 4: CAPI Tracker Integrator (Marketing Hub) (ConcluÃ­do)
+| Tarefa Prevista (Roadmap) | Arquivo ResponsÃ¡vel | Status | ValidaÃ§Ã£o TÃ©cnica |
+| :--- | :--- | :---: | :--- |
+| **P4.1** Background Job de Web API | `server/marketing/capi_tracker.py` | âœ… | `track_purchase` implementado com SHA-256 e disparo Graph API. |
+
+---
+
+## ðŸŸ¢ PROJETO 5: Recaptura & Broadcast Engine (ConcluÃ­do)
+| Tarefa Prevista (Roadmap) | Arquivo ResponsÃ¡vel | Status | ValidaÃ§Ã£o TÃ©cnica |
+| :--- | :--- | :---: | :--- |
+| **P5.1** Escuta de abandono no BD | `server/marketing/cron_abandoned.py` | âœ… | `AbandonmentRecovery` implementado com disparos assÃ­ncronos via HSM. |
+
+---
+
+## ?? PROJETO 6: Social Media Command Center (Concluído)
+| Tarefa Prevista | Arquivo Responsável | Status | Validação Técnica |
+| :--- | :--- | :---: | :--- |
+| **P6.1** Motor de Identidade Visual | `marketing/social/image_engine.py` | ? | Portado do `agent_social_media/border.py` (Bordas e Molduras). |
+| **P6.2** Copywriter Gemini (anti-CrewAI) | `marketing/social/social_copywriter.py` | ? | Substituto leve usando `LLMFactory` + RAG Context. |
+| **P6.3** Orquestração e Aprovação | `marketing/social/social_command_center.py` | ? | Fluxo de draft e botões de aprovação integrado ao Zap. |
+| **P6.4** API Oficial Intercept | `core/orchestrator.py` | ? | Intercepção de `msg_type == \ image\` para disparar o motor. |
+
+---
+
+## ?? PROJETO 7: Strategic Growth Engine (Concluído)
+| Tarefa Prevista | Arquivo Responsável | Status | Validação Técnica |
+| :--- | :--- | :---: | :--- |
+| **P7.1** Planejador Semanal (CMO) | `marketing/social/strategic_planner.py` | ? | Geração de cronograma 7 dias via Gemini 2.5 Pro. |
+| **P7.2** Repurposing de Artigos/Áudio | `marketing/social/content_transformer.py` | ? | Transforma textos densos (>400 carac) em posts acionáveis. |
+| **P7.3** Roteamento Estratégico | `ai/intent_analyzer.py` | ? | Detecção de gatilhos \ PLANO\ ou \ARTIGO\. |
+
+---
+
+## ?? PROJETO 8: CEO Executive Intelligence (Concluído)
+| Tarefa Prevista | Arquivo Responsável | Status | Validação Técnica |
+| :--- | :--- | :---: | :--- |
+| **P8.1** Cientista de Dados (SQL-Gen) | `marketing/bi/data_analyst.py` | ? | Tradução de linguagem natural em SQL PostgreSQL oficial. |
+| **P8.2** Repórter de Insight (CEO Tone) | `marketing/bi/executive_reporter.py` | ? | Transformação de dados brutos em insights estratégicos. |
+| **P8.3** Executor de Queries no DB | `database/repository.py` | ? | Execução segura de consultas dinâmicas no banco real. |
+| **P8.4** Camada de Segurança Administrativa | `core/orchestrator.py` | ? | Verificação de Whitelist (ADMIN_PHONE) para acesso a dados sensíveis. |

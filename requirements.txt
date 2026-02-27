@@ -1,0 +1,43 @@
+# ---------------------------------------------------------
+# DEPENDÊNCIAS DO NÚCLEO WEBHOOK (SERVER PYTHON)
+# ---------------------------------------------------------
+
+# Backend rápido e assíncrono para o Webhook API
+fastapi==0.111.0
+uvicorn==0.30.1
+
+# Manipulação de requisições HTTP para a Meta API Cloud
+requests==2.32.3
+httpx==0.27.0
+
+# Serialização, tipagem estática e Parsing dos JSONs complexos da Meta
+pydantic==2.7.4
+
+# Leitura Segura das Variáveis de Ambiente (.env)
+python-dotenv==1.0.1
+
+# ---------------------------------------------------------
+# DEPENDÊNCIAS DE BANCO DE DADOS (POSTGRESQL - HANDOFF)
+# ---------------------------------------------------------
+# ORM (Mapeamento de banco) - Opcional, mas de uso muito comum
+SQLAlchemy==2.0.30
+
+# Drive principal nativo para conversar com o Postgres (Regra de Ouro)
+psycopg2-binary==2.9.9
+
+# ---------------------------------------------------------
+# IA & ENGINES (AGENTE E CÉREBRO)
+# ---------------------------------------------------------
+# SDK Base do Google Gemini
+google-genai==0.2.2
+
+# Orquestração de prompts e memória (Opcional, utilitário poderoso)
+langchain==0.2.5
+langchain-google-genai==1.0.6
+
+# ---------------------------------------------------------
+# MARKETING & DESIGN (PROJETOS 6 E 7)
+# ---------------------------------------------------------
+# Processamento de Imagens (Bordas, Molduras e Logos)
+Pillow==10.3.0
+

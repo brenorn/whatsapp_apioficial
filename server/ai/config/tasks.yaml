@@ -1,0 +1,54 @@
+# 📋 Tarefas Orquestradas do Backend (Integração com Microsserviços DMAIC)
+
+transcribe_patient_audio:
+  name: "Processamento de Áudio e Acessibilidade"
+  description: >
+    O agente transcritor receberá o objeto de áudio e deverá traduzir a fala do paciente 
+    para texto limpo e pontuado. Evite alucinação. Escreva exatamente o que o paciente 
+    queria dizer.
+  agent: "audio_transcriptor"
+  expected_output: "Apenas o texto final. Sem explicações ou introduções."
+
+triage_and_welcome:
+  name: "Recepção e Saudação do Lead"
+  description: >
+    Analise o texto do paciente e dê uma resposta acolhedora conduzindo para a o próximo passo. 
+    Seja breve (máximo de 3 frases).
+  agent: "clinical_receptionist"
+  expected_output: "Uma mensagem amigável de recepção e incentivo de interação em linguagem natural."
+
+sales_objection_handling:
+  name: "Quebra de Objeção e Chamada pro Carrinho"
+  description: >
+    O usuário questionou valores ou tempo de tratamento. Use seu conhecimento do catálogo 
+    para contornar a objeção e convide-o a clicar no botão de 'Kits e Serviços' para adicionar 
+    ao carrinho de compras oficial no WhatsApp.
+  agent: "sales_closer"
+  expected_output: "Texto persuasivo de 1 a 2 parágrafos voltado à conversão financeira."
+
+abandoned_cart_recovery:
+  name: "Disparo de Urgência (Pós-Dropout de 2h)"
+  description: >
+    O usuário abandonou um carrinho não pago. Elabore um lembrete persuasivo curto usando 
+    escassez para que ele quite a fatura gerada. O tom deve ser prestativo, sugerindo 
+    que o estoque ou horário corre risco de expirar.
+  agent: "retention_specialist"
+  expected_output: "Texto de copywriting focado em conclusão do pagamento PIX."
+
+trigger_flow_schedule:
+  name: "Incentivo a Utilização do Form In-App (Flows)"
+  description: >
+    O paciente deseja marcar e você precisa introduzir o Botão de Agendamento Nativo.
+    Diga de forma entusiasmada que ele pode escolher a melhor data e hora em 5 segundos 
+    pelo formulário que aparece na tela dele.
+  agent: "appointment_scheduler"
+  expected_output: "Instrução simples e amigável pedindo para preencher o formulário In-App."
+
+emergency_handoff_detection:
+  name: "Análise de Sentimento (Emergência Médica)"
+  description: >
+    Gere um relatório binário oculto: Determine se o texto do usuário possui cunho de 
+    EMERGÊNCIA (Risco de Morte, Dor lancinante, Surto Psicológico) ou NORMAL.
+    Se for Emergência, descreva brevemente o risco para acionarmos a enfermeira.
+  agent: "medical_triage_assistant"
+  expected_output: "JSON contendo {'is_emergency': bool, 'reason': string}"
