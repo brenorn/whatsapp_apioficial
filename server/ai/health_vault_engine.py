@@ -1,6 +1,7 @@
 import logging
 import json
 from ai.llm_factory import LLMFactory
+from ai.rag_manager import RAGManager
 
 logger = logging.getLogger(__name__)
 
@@ -28,14 +29,20 @@ class HealthVaultEngine:
         """
         Analisa se uma prescrição pretendida é segura baseada no vault do paciente.
         """
+        # 1. Busca Contexto Híbrido (Graph + SQL + Vector)
+        hybrid_context = await RAGManager.hybrid_query(prescription_intent)
+        
         prompt = f"""
-        HISTÓRICO DO PACIENTE:
+        CONTEXTO HÍBRIDO DO PACIENTE (IA Intelligence):
+        {hybrid_context}
+
+        HISTÓRICO BRUTO:
         {history}
 
         INTENÇÃO DE PRESCRIÇÃO:
         "{prescription_intent}"
 
-        Compare os dados acima. Se existir risco alérgico ou interação perigosa, emita um '⚠️ ALERTA CRÍTICO'. 
+        Analise os dados acima procurando por conflitos. Se existir risco alérgico ou interação perigosa, emita um '⚠️ ALERTA CRÍTICO'. 
         Caso contrário, forneça um '✅ PARECER DE SEGURANÇA'.
         """
 

@@ -10,8 +10,9 @@
 Nosso sistema não é apenas um "chatbot". É um ecossistema de microserviços projetado com uma filosofia estrita de engenharia que equilibra o brilho da Inteligência Artificial com a segurança brutal do código puro:
 
 1. **SaaS Agnóstico (Nova Camada):** O sistema troca de "pele" instantaneamente via arquivo `business_profile.yaml`. Mesma IA, setores diferentes (Advocacia, Saúde, Vendas).
-2. **Escudo de Segurança (Corpo de Aço):** Se uma tarefa possui regras claras (agendamentos, pagamentos, filtros LGPD), usamos código determinístico (`Python`, `RegEx`, `SQL`). Custo zero, latência zero, 100% de precisão.
-3. **Guardrails Essenciais:** Central de Higiene (bloqueio de dados sensíveis PII, bloqueio de concorrentes, juiz anti-alucinação).
+2. **HybridRAG Engine (Cérebro Cognitivo):** Integração mestre entre **PostgreSQL** (Fatos), **Neo4j** (Relações/GraphRAG) e **ChromaDB** (Vetores). O sistema não apenas responde, ele raciocina sobre conexões complexas.
+3. **Knowledge Vault (Sandeco Master Architecture):** Pipeline profissional de ingestão (Chunking -> Extraction -> Aggregation). Alimente a IA com livros e artigos e veja-a aprender em Domínios isolados (Area X).
+4. **Escudo de Segurança (Corpo de Aço):** Código determinístico para tarefas críticas. Custo zero, latência zero, 100% de precisão.
 
 ---
 
@@ -62,6 +63,8 @@ Regra interna: **Nenhum arquivo de negócio deve passar das 200 linhas.**
 *   `server/core/interceptors_manager.py`: Os 25 projetos ficam aqui. Se a intenção for do Projeto 15, ele isola e despacha.
 *   `server/core/guardrails_manager.py`: A alfândega. Filtra palavrões, links maliciosos e anonimiza CPFs/E-mails (Zero Leak).
 *   `server/core/config_manager.py`: O "DNA" do setor. Controla a troca de contexto entre Clínica/Advocacia.
+*   `server/ai/knowledge_vault/`: Motor de ingestão GraphRAG (Inspirado no Sandeco). Onde livros e artigos viram inteligência estruturada.
+*   `server/ai/rag_manager.py`: Orquestrador Híbrido que funde Graph + SQL + Vector em uma única resposta contextual.
 *   `server/ai/llm_factory.py`: Fábrica de LLMs com fallback automático e injeção de contexto agnóstico.
 *   `docker-compose.yml`: Orquestração profissional (FastAPI + PostgreSQL + Neo4j).
 

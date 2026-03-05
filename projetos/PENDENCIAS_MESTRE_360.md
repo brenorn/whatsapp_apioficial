@@ -6,9 +6,10 @@ Este documento consolida as pendências técnicas de todos os microserviços, pr
 ---
 
 ## 🏗️ INFRAESTRUTURA & CORE
-- [ ] **Docker Engine:** Validar a conexão entre o container de Backend e o Postgres/Neo4j via `docker-compose`.
-- [ ] **Neo4j Seeder:** Implementar o script que popula o Grafo inicial de conhecimento (MedGemma e Legal Knowledge).
-- [ ] **Environment Audit:** Garantir que todas as chaves (ElevenLabs, Meta, Google, Miro) estejam centralizadas no `server/.env`.
+- [x] **Agnostic Core:** `BusinessConfigManager` implementado e integrado à LLMFactory (Transmutação funcional).
+- [ ] **Docker Engine:** Validar a conexão real entre o container de Backend e o Postgres/Neo4j via `docker-compose up`.
+- [ ] **Neo4j Seeder:** Implementar o script que popula o Grafo inicial de conhecimento (Injetar Nós de Setores).
+- [ ] **Environment Audit:** Centralizar todas as chaves (ElevenLabs, Meta, Google, Miro) no `server/.env`.
 
 ---
 
@@ -41,7 +42,12 @@ Este documento consolida as pendências técnicas de todos os microserviços, pr
 
 ## 🛡️ COMPLIANCE & SEGURANÇA (GUARDRAILS)
 - [ ] **Hallucination Judge:** Implementar o validador que checa se a resposta da IA contradiz o banco de dados Master antes de enviar ao cliente.
-- [ ] **PII Scrubbing:** Expandir o validador para detectar documentos específicos (Ex: OAB para advogados, CRM para médicos).
+- [ ] **PII Scrubbing:** Expandir o validador para detectar documentos específicos (OAB/CRM) e anonimizá-los conforme LGPD.
+
+---
+
+## 🛰️ CONECTIVIDADE & FUTURO (P26)
+- [ ] **Project 26 (MCP Global Gateway):** Implementar o Model Context Protocol para conectar o MoveMind aos dados nativos do Google Workspace e BigQuery do cliente de forma agnóstica.
 
 ---
 *Assinado: Antigravity AI Engine (Breno's Co-Pilot)*

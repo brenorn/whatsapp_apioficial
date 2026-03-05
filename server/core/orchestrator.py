@@ -7,6 +7,7 @@ from core.whatsapp_cloud_client import WhatsAppCloudClient
 from core.guardrails_manager import GuardrailsManager
 from core.interceptors_manager import InterceptorsManager
 from ai.intent_analyzer import IntentAnalyzer
+from ai.rag_manager import RAGManager
 
 logger = logging.getLogger(__name__)
 cloud_api = WhatsAppCloudClient()
@@ -40,6 +41,11 @@ async def manage_incoming_message(phone: str, message: str, msg_type: str = "tex
 
     # 4. Logs e Intent Analysis
     log_message(phone, message, sender="user", msg_type=msg_type)
+    
+    # IA Engine: Auto-Alimentação de Conhecimento (GraphRAG Style)
+    import asyncio
+    asyncio.create_task(RAGManager.extract_and_feed_graph(message))
+    
     intent_data = IntentAnalyzer.identify_intent(message)
 
     # 5. Roteamento de Projetos (Interceptors P9-P25)
