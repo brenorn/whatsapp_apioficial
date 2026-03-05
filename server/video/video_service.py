@@ -1,8 +1,8 @@
 import logging
 import os
 from typing import Dict, Any
-# Simulação de bibliotecas de edição (MoviePy/Pydub seriam instaladas no requirements.txt)
-# from moviepy.editor import VideoFileClip
+from video.engines.silence_sniper import SilenceSniper
+from video.engines.captions_generator import CaptionsGenerator
 
 logger = logging.getLogger(__name__)
 
@@ -14,8 +14,13 @@ class VideoAutoEditorService:
 
     def __init__(self):
         self.output_dir = "server/assets/processed_videos/"
-        if not os.path.exists(self.output_dir):
-            os.makedirs(self.output_dir)
+        self.temp_dir = "server/assets/temp_clips/"
+        self.sniper = SilenceSniper()
+        self.captions = CaptionsGenerator()
+        
+        for d in [self.output_dir, self.temp_dir]:
+            if not os.path.exists(d):
+                os.makedirs(d, exist_ok=True)
 
     async def process_video_reels(self, input_path: str, add_subtitles: bool = True) -> str:
         """
@@ -35,14 +40,14 @@ class VideoAutoEditorService:
         return final_path
 
     async def _remove_silence(self, path: str) -> str:
-        """Lógica para remover gaps de silêncio (Silence Sniper)."""
-        logger.info("✂️ Removendo silêncios e hesitações...")
-        return path # Retorna o mesmo path no MOCK
+        """Aciona o motor Silence Sniper para cortes secos e rápidos."""
+        output_name = f"snipped_{os.path.basename(path)}"
+        out_path = os.path.join(self.temp_dir, output_name)
+        return await self.sniper.snip_silence(path, out_path)
 
     async def _add_magnetic_captions(self, path: str) -> str:
-        """Usa Whisper para gerar e queimar legendas dinâmicas no vídeo."""
-        logger.info("🔡 Gerando legendas dinâmicas (Magnetic Captions)...")
-        return path
+        """Aciona o motor de IA para criar legendas de alta retenção."""
+        return await self.captions.generate_magnetic_captions(path)
 
     def get_download_url(self, video_id: str) -> str:
         """Gera URL de download para o WhatsApp Cloud Client."""

@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
 from datetime import datetime
-from server.ai.llm_factory import LLMFactory
+from ai.llm_factory import LLMFactory
 
 logger = logging.getLogger(__name__)
 

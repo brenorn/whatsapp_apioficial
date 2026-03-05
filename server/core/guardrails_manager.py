@@ -1,6 +1,8 @@
 import logging
 import json
 from typing import Dict, Any, Optional
+from core.guardrails.vazamento_avancado import PIIValidator
+from core.guardrails.ban_list_validator import BanListValidator
 
 logger = logging.getLogger(__name__)
 
@@ -15,15 +17,12 @@ class GuardrailsManager:
         """
         Valida a entrada do usuário antes de chegar na IA.
         """
-        text_upper = text.upper()
-        
-        # 1. Ban List (Lógica Pura - Economia de Tokens)
-        banned = ["PORRA", "MERDA", "CARALHO"] # Simplificado para o exemplo
-        if any(w in text_upper for w in banned):
-            return {"status": "BLOCKED", "reason": "Toxicidade detectada por lógica pura."}
+        # 1. Ban List (Toxicidade)
+        if not BanListValidator.validate(text):
+            return {"status": "BLOCKED", "reason": "Toxicidade detectada."}
 
         # 2. Topic Check (Lógica Pura)
-        # Se for dúvida financeira, não passa por IA sem necessidade
+        text_upper = text.upper()
         if "PIX" in text_upper or "PAGAMENTO" in text_upper:
             return {"status": "DETERMINISTIC", "route": "PAYMENT"}
 
@@ -35,9 +34,10 @@ class GuardrailsManager:
         Higieniza a saída da IA antes de enviar ao WhatsApp.
         """
         # 1. Filtro de PII (Proteção LGPD)
-        # Implementação de limpeza de e-mails/telefones (Lógica Pura/Regex)
-        import re
-        clean_text = re.sub(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b', '[E-MAIL PROTEGIDO]', ai_response)
+        clean_text = PIIValidator.anonymize(ai_response)
+        
+        # 2. Filtro de Palavras Proibidas (Censura de saída)
+        clean_text = BanListValidator.censor(clean_text)
         
         return clean_text
 

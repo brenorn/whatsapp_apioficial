@@ -2,10 +2,10 @@ import asyncio
 import os
 import sys
 
-# Ajustar path para importar os módulos do server
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+# Ajustar path para incluir a pasta 'server'
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from server.compliance.pop_service import POPArchitectService
+from compliance.pop_service import POPArchitectService
 
 async def test_pop_elite():
     print("🧪 [TEST] Iniciando Teste de Geração de POP Elite (P18)...")

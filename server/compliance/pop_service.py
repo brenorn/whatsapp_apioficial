@@ -1,9 +1,9 @@
 import logging
 import os
 from typing import Dict, Any
-from server.compliance.pop_architect.generator import POPGenerator
-from server.compliance.pop_architect.auditor import POPAuditor
-from server.compliance.pop_architect.visualizer import MiroVisualizer
+from compliance.pop_architect.generator import POPGenerator
+from compliance.pop_architect.auditor import POPAuditor
+from compliance.pop_architect.visualizer import MiroVisualizer
 
 logger = logging.getLogger(__name__)
 

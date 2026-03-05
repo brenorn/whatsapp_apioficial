@@ -36,8 +36,18 @@ langchain==0.2.5
 langchain-google-genai==1.0.6
 
 # ---------------------------------------------------------
-# MARKETING & DESIGN (PROJETOS 6 E 7)
+# MARKETING & DESIGN (PROJETOS 6 E 7 e 13)
 # ---------------------------------------------------------
 # Processamento de Imagens (Bordas, Molduras e Logos)
 Pillow==10.3.0
+
+# SDKs oficiais de Anúncios (OmniAds P13)
+facebook-business==19.0.5
+google-ads==24.0.0
+
+# ---------------------------------------------------------
+# INFRA E AGNOSTICISMO
+# ---------------------------------------------------------
+PyYAML==6.0.1
+neo4j==5.21.0
 

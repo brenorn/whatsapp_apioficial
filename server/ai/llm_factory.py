@@ -1,6 +1,7 @@
 import os
 import logging
 from typing import Optional, Dict
+from core.config_manager import BusinessConfigManager
 
 try:
     from google import genai
@@ -87,8 +88,10 @@ class LLMFactory:
                 print(f"🧠 [LLM Factory] Disparando rede neural -> '{model_name}'...")
                 config = {"temperature": temperature}
                 
-                if system_instruction:
-                    config["system_instruction"] = system_instruction
+                # Injeção Automática de Contexto de Negócio (Agnostic AI)
+                business_prefix = BusinessConfigManager.get_prompt_prefix()
+                full_system = f"{business_prefix}\n\n{system_instruction or ''}"
+                config["system_instruction"] = full_system
                     
                 response = client.models.generate_content(
                     model=model_name,

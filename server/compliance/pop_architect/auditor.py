@@ -1,6 +1,6 @@
 import logging
 import json
-from server.ai.llm_factory import LLMFactory
+from ai.llm_factory import LLMFactory
 
 logger = logging.getLogger(__name__)
 

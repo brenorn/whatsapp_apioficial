@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any
-from server.database.repository import Repository
-from server.ai.llm_factory import LLMFactory
+from database.repository import Repository
+from ai.llm_factory import LLMFactory
 
 logger = logging.getLogger(__name__)
 
@@ -12,7 +12,6 @@ class NPSService:
 
     def __init__(self):
         self.repo = Repository()
-        self.llm = LLMFactory.get_instance()
 
     async def send_nps_invite(self, phone: str, service_name: str):
         """

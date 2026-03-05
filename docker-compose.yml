@@ -1,0 +1,57 @@
+version: '3.8'
+
+services:
+  # O Cérebro: Backend FastAPI (P1-P25)
+  movemind_api:
+    build: .
+    container_name: movemind_api
+    env_file:
+      - server/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - movemind_db
+    networks:
+      - move_network
+
+  # A Memória: PostgreSQL ( logs e transações)
+  movemind_db:
+    image: postgres:15-alpine
+    container_name: movemind_db
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASS:-movemind2026}
+      POSTGRES_DB: ${DB_NAME:-movemind_master}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./scripts/MASTER_DATABASE_SCHEMA.sql:/docker-entrypoint-initdb.d/init.sql
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - move_network
+
+  # A Intuição: Neo4j (Relacionamentos de Conhecimento)
+  movemind_graph:
+    image: neo4j:latest
+    container_name: movemind_graph
+    restart: always
+    environment:
+      NEO4J_AUTH: ${NEO4J_USER:-neo4j}/${NEO4J_PASS:-movemind_secret}
+    ports:
+      - "7474:7474" # Browser UI
+      - "7687:7687" # Bolt Protocol
+    volumes:
+      - neo4j_data:/data
+    networks:
+      - move_network
+
+networks:
+  move_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  neo4j_data:

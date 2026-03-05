@@ -1,7 +1,7 @@
 import logging
 from typing import Dict, Any, List
-from server.database.repository import Repository
-from server.ai.llm_factory import LLMFactory
+from database.repository import Repository
+from ai.llm_factory import LLMFactory
 
 logger = logging.getLogger(__name__)
 
@@ -13,7 +13,6 @@ class MeetingIntelService:
 
     def __init__(self):
         self.repo = Repository()
-        self.llm = LLMFactory.get_instance()
 
     async def process_consultation_transcript(self, transcript: str) -> Dict[str, Any]:
         """
@@ -33,15 +32,24 @@ class MeetingIntelService:
         Retorne em JSON estruturado.
         """
         
-        intel = await self.llm.generate_structured(prompt)
-        return intel
+        response_raw = LLMFactory.generate(prompt, task_level="complex")
+        
+        try:
+            import json
+            import re
+            match = re.search(r'\{.*\}', response_raw, re.DOTALL)
+            if match:
+                return json.loads(match.group(0))
+            return {"summary": response_raw, "mermaid_code": ""}
+        except:
+            return {"summary": "Erro ao processar resumo.", "mermaid_code": ""}
 
     async def generate_mermaid_flow(self, process_description: str) -> str:
         """
         Gera o código Mermaid para visualização de fluxos.
         """
         prompt = f"Gere apenas o código Mermaid.js (graph TD) para: {process_description}"
-        mermaid_code = await self.llm.generate_text(prompt)
+        mermaid_code = LLMFactory.generate(prompt)
         return mermaid_code
 
     def save_insights(self, phone: str, intel_data: Dict):
